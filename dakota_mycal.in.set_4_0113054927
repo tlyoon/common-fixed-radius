@@ -1,0 +1,80 @@
+# based in /home/yl/dakota/dakota-gmt/common_fixed_radius/round1/TEMPLATES_0113054927_co_br_most_ideal
+# perform best for 0113054927
+# suppressed sigma to 0.000228 at 23435
+# threshold occurred at around 15000
+
+environment
+  top_method_pointer = 'H2'
+
+method
+  id_method = 'H2'
+  hybrid sequential
+    method_pointer_list = 'moga' 'PS'
+
+  
+method
+  id_method = 'moga'
+  moga
+    seed = 10983
+  max_function_evaluations = 16000    ### was 60000
+  initialization_type unique_random
+  crossover_type shuffle_random
+    num_offspring = 10 num_parents = 10  
+    crossover_rate = 15.0
+  mutation_type replace_uniform
+    mutation_rate = 1.0
+  fitness_type domination_count
+  replacement_type below_limit = 6
+    shrinkage_fraction = 0.9
+  convergence_type metric_tracker
+  convergence_tolerance = 1.e-10
+    percent_change = 0.05 num_generations = 60  
+  final_solutions = 1
+  output verbose
+
+method
+  id_method = 'PS'
+  coliny_pattern_search
+    stochastic
+    initial_delta = 0.1
+    seed = 1236 
+   max_function_evaluations = 20000              
+    variable_tolerance = 1.e-10
+    convergence_tolerance = 1.e-10
+  solution_target = 1.e-10  
+  exploratory_moves 
+    basic_pattern  
+  model_pointer = 'M1'
+  output verbose
+  
+model
+  id_model = 'M1'
+  single
+    interface_pointer = 'I1'                    
+  variables_pointer = 'V1'                      
+  responses_pointer = 'R1'
+
+variables
+  id_variables = 'V1'                           
+  continuous_design = 42
+    lower_bounds -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000
+	upper_bounds 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000
+    descriptor "x1" "x2" "x3" "x4" "x5" "x6" "x7" "x8" "x9" "x10" "x11" "x12" "x13" "x14" "x15" "x16" "x17" "x18" "x19" "x20" "x21" "x22" "x23" "x24" "x25" "x26" "x27" "x28" "x29" "x30" "x31" "x32" "x33" "x34" "x35" "x36" "x37" "x38" "x39" "x40" "x41" "x42"
+	
+interface
+  id_interface = 'I1'                           
+	fork
+	  analysis_driver = 'simulator_script'
+	  parameters_file = 'params.in'
+	  results_file    = 'results.out'
+	  work_directory directory_tag
+	  link_files = 'templatedir/*'
+ 	  named 'workdir' file_save  directory_save
+	  aprepro
+ 	  deactivate active_set_vector evaluation_cache restart_file
+  
+responses
+  id_responses = 'R1'
+  objective_functions = 1
+  no_gradients
+  no_hessians

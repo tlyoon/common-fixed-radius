@@ -1,0 +1,149 @@
+# Hybrid optimization 
+
+environment
+  top_method_pointer = 'H'
+
+method
+  id_method = 'H'
+  hybrid sequential
+    method_pointer_list = 'moga' 'PS'
+
+method
+  id_method = 'moga'
+  soga
+    seed = 10983
+## 1. fitness_type ##
+  fitness_type 
+    merit_function
+  # domination_count 
+  # merit_function
+  # constraint_penalty
+  
+## 2. replacement_type ##  
+  replacement_type 
+  #below_limit = 6
+  #  shrinkage_fraction = 0.9
+    elitist
+  #below_limit = 6
+  #  shrinkage_fraction = 0.9
+  #elitist
+  #favor_feasible
+  #foulette_wheel
+  #unique_roulette_wheel
+  
+ ## 3.convergence_type ##
+  convergence_type 
+  #metric_tracker
+    #best_fitness_tracker
+    #  percent_change = 0.05 
+    #  num_generations = 20
+    #best_fitness_tracker
+    #percent_change = 0.05 
+    #num_generations = 60	
+    average_fitness_tracker   
+      percent_change = 0.1 
+      num_generations = 60
+  
+## 4. max_iterations = 30000 ##  
+  max_iterations = 20000    ### was 15000 in diy6
+
+##5. max_function_evaluations  ##  
+  max_function_evaluations = 20000   ### was 15000 in diy6
+
+##   6. population_size ##
+#  population_size = 100
+  
+##   7. initialization_type ##  
+#  initialization_type 
+#    unique_random
+    #simple_random
+    #unique_random
+	#flat_file
+
+## 8. crossover_type ##	
+  crossover_type 
+    shuffle_random
+      num_parents = 20    # was 10 in diy6
+      num_offspring = 15  # was 10 in diy6
+      crossover_rate = 15.0
+    #multi_point_binary
+	# 10
+	#multi_point_parameterized_binary
+	# 10
+	#multi_point_real
+	# 10
+	#shuffle_random
+	#  num_parents = 2
+	#  num_offspring = 2 
+	# crossover_rate = 0.8  
+  
+## 9.mutation_type ##  
+  mutation_type 
+    replace_uniform
+    mutation_rate = 0.1
+    #mutation_scale = 0.15
+    #
+    #bit_random
+	#replace_uniform
+	#  mutation_rate = 0.08
+	#  mutation_scale = 0.15
+	#offset_normal
+	#  mutation_scale = 0.15
+	#  mutation_rate = 0.08
+	#offset_cauchy
+	#  mutation_scale = 0.15
+	#  mutation_rate = 0.08
+	#offset_uniform
+	#  mutation_scale = 0.15
+	#  mutation_rate = 0.08
+
+##   10.convergence_tolerance ##
+  convergence_tolerance = 1.e-10
+## 11. output ##
+  final_solutions = 1
+  output verbose
+
+method                                    
+  id_method = 'PS'
+  coliny_pattern_search stochastic             
+    max_function_evaluations = 20000   # was 13000 in diy6
+    seed = 1234                          
+    initial_delta = 0.1                
+    variable_tolerance = 1.e-6
+    convergence_tolerance = 1.e-6
+    solution_target = 1.e-6              
+    exploratory_moves basic_pattern            
+    model_pointer = 'M1'                       
+  output verbose                               
+  
+model
+  id_model = 'M1'
+  single
+    interface_pointer = 'I1'                    
+  variables_pointer = 'V1'                      
+  responses_pointer = 'R1'
+
+variables
+  id_variables = 'V1'                           
+  continuous_design = 42
+    lower_bounds -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000 -1000
+	upper_bounds 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000
+    descriptor "x1" "x2" "x3" "x4" "x5" "x6" "x7" "x8" "x9" "x10" "x11" "x12" "x13" "x14" "x15" "x16" "x17" "x18" "x19" "x20" "x21" "x22" "x23" "x24" "x25" "x26" "x27" "x28" "x29" "x30" "x31" "x32" "x33" "x34" "x35" "x36" "x37" "x38" "x39" "x40" "x41" "x42"
+	
+interface
+  id_interface = 'I1'                           
+	fork
+	  analysis_driver = 'simulator_script'
+	  parameters_file = 'params.in'
+	  results_file    = 'results.out'
+	  work_directory directory_tag
+	  link_files = 'templatedir/*'
+ 	  named 'workdir' file_save  directory_save
+	  aprepro
+ 	  deactivate active_set_vector evaluation_cache restart_file
+  
+responses
+  id_responses = 'R1'
+  objective_functions = 1
+  no_gradients
+  no_hessians
